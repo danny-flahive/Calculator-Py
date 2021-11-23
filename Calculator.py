@@ -53,16 +53,42 @@ def process_goto(command):
     else:                                           #Else, there's a calculate command here
         return floor(calculator(command[1:]) - 1)   #Calculate and then -1 for indexing reasons
 
-if __name__ == "__main__":
+def process_remove(command, array):
+    index = int(command[1]) - 1
+    del array[index]
+    return array
+
+def process_replace(command, array):
+    replace_index = command[1]
+    replace_with_index = command[2]
+    array[replace_index] = array[replace_with_index]
+    return array
+
+def main():
     commands = get_input_from_file("step_3.txt")
     current_index = 0
     seen_commands = []
     current_command = commands[current_index]
     while ((current_command not in seen_commands) and (current_index >= 0 and current_index < len(commands))):      #Within range and not seen before
         seen_commands.append(current_command)
-        current_index = process_goto(current_command)
+        instruction = current_command[0]
+        if instruction == "remove":
+            commands = process_remove(current_command, commands)
+            current_index += 1
+        elif instruction == "goto":
+            current_index = process_goto(current_command)
+        elif instruction == "replace":
+            commands = process_replace(current_command, commands)
+            current_index += 1
         current_command = commands[current_index]
+    return (current_index, current_command)
+
+if __name__ == "__main__":
+    answer = main()
     print("Stopped at line: ")
-    print(current_index + 1)
+    print(int(answer[0]) + 1)
     print("On the command: ")
-    print(current_command)
+    print(answer[1])
+
+#Remove: del arr[index]
+#Replace: arr[x] = arr[y]?
