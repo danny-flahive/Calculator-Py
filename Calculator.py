@@ -1,4 +1,4 @@
-import sys
+from math import floor
 
 def calculator(question_arr):              
     operator = question_arr[1]
@@ -47,13 +47,22 @@ def get_input_from_file(path):
         question_arr.append(question.split(" "))
     return question_arr
 
+def process_goto(command):
+    if len(command) == 2:                           #If it's strictly goto [line], return the line number
+        return int(command[1]) - 1                  #-1 as the array is 0 indexed but commands aren't
+    else:                                           #Else, there's a calculate command here
+        return floor(calculator(command[1:]) - 1)   #Calculate and then -1 for indexing reasons
+
 if __name__ == "__main__":
-    questions = get_input_from_file("step_2.txt")
-    results = []
-    for question in questions:
-        if question[0] == "calc":
-            results.append(round(calculator(question), 3))
-    print("Results: ")
-    print(results)
-    print("Sum: ")
-    print(sum(results))
+    commands = get_input_from_file("step_3.txt")
+    current_index = 0
+    seen_commands = []
+    current_command = commands[current_index]
+    while ((current_command not in seen_commands) and (current_index >= 0 and current_index < len(commands))):      #Within range and not seen before
+        seen_commands.append(current_command)
+        current_index = process_goto(current_command)
+        current_command = commands[current_index]
+    print("Stopped at line: ")
+    print(current_index + 1)
+    print("On the command: ")
+    print(current_command)
