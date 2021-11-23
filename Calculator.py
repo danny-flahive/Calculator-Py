@@ -22,6 +22,8 @@ def calculator(question_arr):
     else:
         if operator == "%":
             return first_operand % second_operand
+        if operator == "^":
+            return first_operand ^ second_operand
         print("Invalid operator")           #Only accepts valid operators
 
 def multiply(x, y):
