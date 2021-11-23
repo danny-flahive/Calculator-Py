@@ -89,6 +89,3 @@ if __name__ == "__main__":
     print(int(answer[0]) + 1)
     print("On the command: ")
     print(answer[1])
-
-#Remove: del arr[index]
-#Replace: arr[x] = arr[y]?
