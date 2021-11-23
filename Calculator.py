@@ -19,9 +19,9 @@ def calculator(question_arr):
         return add(first_operand, second_operand)
     elif operator == "-":
         return subtract(first_operand, second_operand)
-    elif operator == "^":
-        return first_operand ^ second_operand
     else:
+        if operator == "^":
+            return first_operand ^ second_operand
         print("Invalid operator")           #Only accepts valid operators
 
 def multiply(x, y):
